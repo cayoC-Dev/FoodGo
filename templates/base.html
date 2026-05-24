@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+    <title>
+
+        {% block titulo %}
+        FoodGo
+        {% endblock %}
+
+    </title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+            display:flex;
+            background:#121212;
+            color:white;
+        }
+
+        .sidebar{
+            width:250px;
+            height:100vh;
+            background:#1e1e1e;
+            padding:30px;
+            position:fixed;
+        }
+
+        .sidebar h1{
+            margin-bottom:40px;
+            color:#ff512f;
+            font-size:32px;
+        }
+
+        .sidebar nav{
+            display:flex;
+            flex-direction:column;
+            gap:20px;
+        }
+
+        .sidebar a{
+            color:white;
+            text-decoration:none;
+            padding:12px;
+            border-radius:10px;
+            transition:0.3s;
+        }
+
+        .sidebar a:hover{
+            background:#ff512f;
+        }
+
+        .content{
+            margin-left:250px;
+            width:100%;
+            padding:30px;
+        }
+
+        .flash{
+            background:#27ae60;
+            padding:15px;
+            border-radius:10px;
+            margin-bottom:20px;
+        }
+
+        .form-container{
+
+            width:100%;
+            min-height:100vh;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }
+
+        form{
+            background:#1e1e1e;
+            padding:40px;
+            border-radius:20px;
+            width:400px;
+        }
+
+        form h1{
+            margin-bottom:20px;
+            text-align:center;
+        }
+
+        input, select{
+
+            width:100%;
+            padding:15px;
+            margin-top:15px;
+
+            border:none;
+            border-radius:10px;
+
+            background:#2c2c2c;
+            color:white;
+        }
+
+        button{
+
+            width:100%;
+            padding:15px;
+            margin-top:20px;
+
+            border:none;
+            border-radius:10px;
+
+            background:#ff512f;
+            color:white;
+
+            font-weight:bold;
+
+            cursor:pointer;
+
+            transition:0.3s;
+        }
+
+        button:hover{
+            opacity:0.8;
+        }
+
+        .cards{
+            display:grid;
+
+            grid-template-columns:
+            repeat(auto-fit, minmax(250px, 1fr));
+
+            gap:20px;
+        }
+
+        .card{
+
+            background:#1e1e1e;
+            border-radius:20px;
+
+            padding:20px;
+        }
+
+        .link{
+
+            margin-top:20px;
+            text-align:center;
+        }
+
+        .link a{
+
+            color:#ff512f;
+            text-decoration:none;
+            font-weight:bold;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    {% if current_user.is_authenticated %}
+
+    <aside class="sidebar">
+
+        <h1>🍔 FoodGo</h1>
+
+        <nav>
+
+            <a href="{{ url_for('dashboard') }}">
+                Dashboard
+            </a>
+
+            {% if current_user.role in
+            ['Admin', 'Funcionario'] %}
+
+                <a href="{{ url_for('produtos') }}">
+                    Produtos
+                </a>
+
+            {% endif %}
+
+            {% if current_user.role == 'Admin' %}
+
+                <a href="{{ url_for('usuarios') }}">
+                    Usuários
+                </a>
+
+            {% endif %}
+
+            <a href="{{ url_for('perfil') }}">
+                Perfil
+            </a>
+
+            <a href="{{ url_for('logout') }}">
+                Sair
+            </a>
+
+        </nav>
+
+    </aside>
+
+    {% endif %}
+
+    <section class="content">
+
+        {% with messages =
+        get_flashed_messages() %}
+
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <div class="flash">
+
+                        {{ message }}
+
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+        {% block conteudo %}
+        {% endblock %}
+
+    </section>
+
+</body>
+
+</html>

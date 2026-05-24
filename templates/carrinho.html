@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+<h1>Carrinho</h1>
+
+{% for item in carrinho %}
+
+    <p>{{ item }}</p>
+
+{% endfor %}
+
+{% endblock %}

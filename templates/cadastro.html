@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+Cadastro - FoodGo
+{% endblock %}
+
+{% block conteudo %}
+
+<div class="form-container">
+
+    <form method="POST">
+
+        <h1>FoodGo</h1>
+
+        <p style="
+        text-align:center;
+        color:#999;
+        margin-bottom:20px;">
+
+            Crie sua conta para acessar o sistema
+
+        </p>
+
+        <input
+        type="text"
+        name="username"
+        placeholder="Usuário"
+        required>
+
+        <input
+        type="password"
+        name="password"
+        placeholder="Senha"
+        required>
+
+        <button type="submit">
+
+            Criar Conta
+
+        </button>
+
+        <p class="link">
+
+            Já possui conta?
+
+            <a href="{{ url_for('login') }}">
+
+                Entrar
+
+            </a>
+
+        </p>
+
+    </form>
+
+</div>
+
+{% endblock %}

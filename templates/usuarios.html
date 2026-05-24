@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+Usuários
+{% endblock %}
+
+{% block conteudo %}
+
+<h1 style="
+margin-bottom:30px;">
+
+    Gerenciar Usuários
+
+</h1>
+
+<div class="cards">
+
+{% for user in usuarios %}
+
+    <div class="card">
+
+        <h2>
+
+            {{ user.username }}
+
+        </h2>
+
+        <p style="
+        margin-top:10px;">
+
+            Cargo:
+            {{ user.role }}
+
+        </p>
+
+        <div style="
+        display:flex;
+        gap:10px;
+        margin-top:20px;">
+
+            <a
+            href="{{ url_for('editar_usuario', id=user.id) }}"
+
+            style="
+            flex:1;
+            text-align:center;
+            background:#3498db;
+            padding:10px;
+            border-radius:10px;
+            color:white;
+            text-decoration:none;">
+
+                Editar
+
+            </a>
+
+            <a
+            href="{{ url_for('deletar_usuario', id=user.id) }}"
+
+            style="
+            flex:1;
+            text-align:center;
+            background:#e74c3c;
+            padding:10px;
+            border-radius:10px;
+            color:white;
+            text-decoration:none;">
+
+                Deletar
+
+            </a>
+
+        </div>
+
+    </div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

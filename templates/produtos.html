@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+Produtos
+{% endblock %}
+
+{% block conteudo %}
+
+<h1 style="margin-bottom:30px;">
+
+    Gerenciar Produtos
+
+</h1>
+
+<form method="POST">
+
+    <input
+    type="text"
+    name="nome"
+    placeholder="Nome do produto"
+    required>
+
+    <input
+    type="number"
+    step="0.01"
+    name="preco"
+    placeholder="Preço"
+    required>
+
+    <input
+    type="text"
+    name="categoria"
+    placeholder="Categoria">
+
+    <input
+    type="text"
+    name="imagem"
+    placeholder="URL da imagem">
+
+    <input
+    type="number"
+    name="estoque"
+    placeholder="Estoque">
+
+    <input
+    type="text"
+    name="descricao"
+    placeholder="Descrição">
+
+    <button type="submit">
+
+        Criar Produto
+
+    </button>
+
+</form>
+
+<h1 style="
+margin-top:40px;
+margin-bottom:20px;">
+
+    Lista de Produtos
+
+</h1>
+
+<div class="cards">
+
+{% for produto in produtos %}
+
+    <div class="card">
+
+        <img
+        src="{{ produto.imagem }}"
+        style="
+        width:100%;
+        height:180px;
+        object-fit:cover;
+        border-radius:15px;">
+
+        <h2 style="margin-top:15px;">
+
+            {{ produto.nome }}
+
+        </h2>
+
+        <p>
+
+            {{ produto.descricao }}
+
+        </p>
+
+        <h3 style="
+        margin-top:15px;
+        color:#ff512f;">
+
+            R$ {{ produto.preco }}
+
+        </h3>
+
+        <p style="margin-top:10px;">
+
+            Estoque:
+            {{ produto.estoque }}
+
+        </p>
+
+        <div style="
+        display:flex;
+        gap:10px;
+        margin-top:15px;">
+
+            <a
+            href="{{ url_for('editar_produto', id=produto.id) }}"
+            style="
+            flex:1;
+            text-align:center;
+            background:#3498db;
+            padding:10px;
+            border-radius:10px;
+            color:white;
+            text-decoration:none;">
+
+                Editar
+
+            </a>
+
+            {% if current_user.role == 'Admin' %}
+
+            <a
+            href="{{ url_for('deletar_produto', id=produto.id) }}"
+            style="
+            flex:1;
+            text-align:center;
+            background:#e74c3c;
+            padding:10px;
+            border-radius:10px;
+            color:white;
+            text-decoration:none;">
+
+                Deletar
+
+            </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}
