@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
 
     <meta name="viewport"
-    content="width=device-width, initial-scale=1.0">
+          content="width=device-width, initial-scale=1.0">
 
     <title>
 
@@ -22,105 +22,215 @@
             margin:0;
             padding:0;
             box-sizing:border-box;
-            font-family:Arial;
+            font-family:Arial,sans-serif;
         }
 
         body{
-            display:flex;
             background:#121212;
             color:white;
         }
 
+        /* SIDEBAR */
+
         .sidebar{
-            width:250px;
+
+            width:220px;
+
             height:100vh;
+
             background:#1e1e1e;
-            padding:30px;
+
             position:fixed;
+
+            left:0;
+
+            top:0;
+
+            padding:20px;
+
+            overflow-y:auto;
+
         }
 
         .sidebar h1{
-            margin-bottom:40px;
+
             color:#ff512f;
-            font-size:32px;
+
+            text-align:center;
+
+            margin-bottom:40px;
+
         }
 
         .sidebar nav{
+
             display:flex;
+
             flex-direction:column;
-            gap:20px;
+
+            gap:15px;
+
         }
 
         .sidebar a{
+
             color:white;
+
             text-decoration:none;
+
             padding:12px;
+
             border-radius:10px;
+
             transition:0.3s;
+
         }
 
         .sidebar a:hover{
+
             background:#ff512f;
+
         }
+
+        /* CONTEÚDO */
 
         .content{
-            margin-left:250px;
-            width:100%;
+
+            min-height:100vh;
+
             padding:30px;
+
+            overflow-x:hidden;
+
         }
 
-        .flash{
-            background:#27ae60;
-            padding:15px;
-            border-radius:10px;
-            margin-bottom:20px;
+        .content-logado{
+
+            margin-left:220px;
+
         }
+
+        /* MENSAGENS */
+
+        .flash{
+
+            background:#27ae60;
+
+            padding:15px;
+
+            border-radius:10px;
+
+            margin-bottom:20px;
+
+        }
+
+        /* CARDS */
+
+        .cards{
+
+            display:grid;
+
+            grid-template-columns:
+            repeat(auto-fit,minmax(250px,1fr));
+
+            gap:20px;
+
+        }
+
+        .card{
+
+            background:#1e1e1e;
+
+            padding:20px;
+
+            border-radius:20px;
+
+        }
+
+        .card img{
+
+            width:100%;
+
+            height:180px;
+
+            object-fit:cover;
+
+            border-radius:15px;
+
+            margin-bottom:15px;
+
+        }
+
+        /* FORMULÁRIOS */
 
         .form-container{
 
             width:100%;
+
             min-height:100vh;
 
             display:flex;
+
             justify-content:center;
+
             align-items:center;
+
         }
 
         form{
+
             background:#1e1e1e;
+
             padding:40px;
+
             border-radius:20px;
-            width:400px;
+
+            width:450px;
+
         }
 
         form h1{
-            margin-bottom:20px;
+
             text-align:center;
+
+            margin-bottom:20px;
+
         }
 
-        input, select{
+        input,
+        select,
+        textarea{
 
             width:100%;
+
             padding:15px;
+
             margin-top:15px;
 
             border:none;
+
             border-radius:10px;
 
             background:#2c2c2c;
+
             color:white;
+
         }
 
         button{
 
             width:100%;
+
             padding:15px;
+
             margin-top:20px;
 
             border:none;
+
             border-radius:10px;
 
             background:#ff512f;
+
             color:white;
 
             font-weight:bold;
@@ -128,40 +238,33 @@
             cursor:pointer;
 
             transition:0.3s;
+
         }
 
         button:hover{
+
             opacity:0.8;
+
         }
 
-        .cards{
-            display:grid;
-
-            grid-template-columns:
-            repeat(auto-fit, minmax(250px, 1fr));
-
-            gap:20px;
-        }
-
-        .card{
-
-            background:#1e1e1e;
-            border-radius:20px;
-
-            padding:20px;
-        }
+        /* LINKS */
 
         .link{
 
             margin-top:20px;
+
             text-align:center;
+
         }
 
         .link a{
 
             color:#ff512f;
+
             text-decoration:none;
+
             font-weight:bold;
+
         }
 
     </style>
@@ -170,23 +273,42 @@
 
 <body>
 
-    {% if current_user.is_authenticated %}
+{% if current_user.is_authenticated %}
 
     <aside class="sidebar">
 
-        <h1>🍔 FoodGo</h1>
+        <h1>
+
+            🍔 FoodGo
+
+        </h1>
 
         <nav>
 
             <a href="{{ url_for('dashboard') }}">
+
                 Dashboard
+
             </a>
 
-            {% if current_user.role in
-            ['Admin', 'Funcionario'] %}
+            <a href="{{ url_for('carrinho') }}">
+
+                Carrinho
+
+            </a>
+
+            <a href="{{ url_for('pedidos') }}">
+
+                Pedidos
+
+            </a>
+
+            {% if current_user.role in ['Admin','Funcionario'] %}
 
                 <a href="{{ url_for('produtos') }}">
+
                     Produtos
+
                 </a>
 
             {% endif %}
@@ -194,50 +316,55 @@
             {% if current_user.role == 'Admin' %}
 
                 <a href="{{ url_for('usuarios') }}">
+
                     Usuários
+
                 </a>
 
             {% endif %}
 
             <a href="{{ url_for('perfil') }}">
+
                 Perfil
+
             </a>
 
             <a href="{{ url_for('logout') }}">
+
                 Sair
+
             </a>
 
         </nav>
 
     </aside>
 
-    {% endif %}
+{% endif %}
 
-    <section class="content">
+<section class="content {% if current_user.is_authenticated %}content-logado{% endif %}">
 
-        {% with messages =
-        get_flashed_messages() %}
+    {% with messages = get_flashed_messages() %}
 
-            {% if messages %}
+        {% if messages %}
 
-                {% for message in messages %}
+            {% for message in messages %}
 
-                    <div class="flash">
+                <div class="flash">
 
-                        {{ message }}
+                    {{ message }}
 
-                    </div>
+                </div>
 
-                {% endfor %}
+            {% endfor %}
 
-            {% endif %}
+        {% endif %}
 
-        {% endwith %}
+    {% endwith %}
 
-        {% block conteudo %}
-        {% endblock %}
+    {% block conteudo %}
+    {% endblock %}
 
-    </section>
+</section>
 
 </body>
 

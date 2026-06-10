@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+Pedidos
+{% endblock %}
+
+{% block conteudo %}
+
+<h1 style="margin-bottom:30px;">
+
+    Pedidos
+
+</h1>
+
+<div class="cards">
+
+{% for pedido in pedidos %}
+
+    <div class="card">
+
+        <h2>
+
+            Pedido #{{ pedido.id }}
+
+        </h2>
+
+        <h3 style="
+        color:#ff512f;
+        margin-top:15px;">
+
+            R$ {{ pedido.total }}
+
+        </h3>
+
+        <p style="
+        margin-top:20px;">
+
+            Status:
+            <span style="color:#27ae60;">
+
+                {{ pedido.status }}
+
+            </span>
+
+        </p>
+
+        {% if current_user.role in ['Admin', 'Funcionario'] %}
+
+        <div style="
+        display:flex;
+        flex-direction:column;
+        gap:10px;
+        margin-top:20px;">
+
+            <a
+            href="{{ url_for('alterar_status', id=pedido.id, status='Recebido') }}"
+            style="
+            background:#3498db;
+            color:white;
+            text-decoration:none;
+            text-align:center;
+            padding:10px;
+            border-radius:10px;">
+
+                Recebido
+
+            </a>
+
+            <a
+            href="{{ url_for('alterar_status', id=pedido.id, status='Em preparo') }}"
+            style="
+            background:#f39c12;
+            color:white;
+            text-decoration:none;
+            text-align:center;
+            padding:10px;
+            border-radius:10px;">
+
+                Em preparo
+
+            </a>
+
+            <a
+            href="{{ url_for('alterar_status', id=pedido.id, status='Saiu para entrega') }}"
+            style="
+            background:#9b59b6;
+            color:white;
+            text-decoration:none;
+            text-align:center;
+            padding:10px;
+            border-radius:10px;">
+
+                Saiu para entrega
+
+            </a>
+
+            <a
+            href="{{ url_for('alterar_status', id=pedido.id, status='Entregue') }}"
+            style="
+            background:#27ae60;
+            color:white;
+            text-decoration:none;
+            text-align:center;
+            padding:10px;
+            border-radius:10px;">
+
+                Entregue
+
+            </a>
+            
+            <a
+            href="{{ url_for('deletar_pedido', id=pedido.id) }}"
+            style="
+            display:block;
+            margin-top:20px;
+            background:#e74c3c;
+            color:white;
+            text-decoration:none;
+            text-align:center;
+            padding:12px;
+            border-radius:10px;">
+
+                Excluir Pedido
+
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}
