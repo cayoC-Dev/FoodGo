@@ -183,9 +183,15 @@ class Pedido(db.Model):
 @login_required
 def pedidos():
 
-    pedidos = Pedido.query.filter_by(
-        usuario_id=current_user.id
-    ).all()
+    if current_user.role in ['Admin', 'Funcionario']:
+
+        pedidos = Pedido.query.all()
+
+    else:
+
+        pedidos = Pedido.query.filter_by(
+            usuario_id=current_user.id
+        ).all()
 
     return render_template(
         'pedidos.html',
